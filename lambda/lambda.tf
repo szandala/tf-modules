@@ -17,6 +17,7 @@ resource "aws_iam_role" "iam_for_lambda" {
 }
 EOF
 }
+data "aws_caller_identity" "current" {}
 
 resource "aws_lambda_function" "lambda" {
   filename      = var.lambda_filename
@@ -30,6 +31,11 @@ resource "aws_lambda_function" "lambda" {
   source_code_hash = filebase64sha256(var.lambda_filename)
 
   runtime = var.lambda_runtime
+
+    tags {
+        Name = var.lambda_name
+        Creator = "${data.aws_caller_identity.current.account_id}_${data.aws_caller_identity.current.user_id}"
+    }
 
 #   environment {
 #     variables = {
