@@ -32,7 +32,7 @@ resource "aws_lambda_function" "lambda" {
 
   runtime = var.lambda_runtime
 
-    tags {
+    tags = {
         Name = var.lambda_name
         Creator = "${data.aws_caller_identity.current.account_id}_${data.aws_caller_identity.current.user_id}"
     }
